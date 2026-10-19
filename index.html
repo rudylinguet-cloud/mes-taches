@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ma liste de tâches</title>
-  <link rel="stylesheet" href="style.css">
+  <!-- Le "?v=..." est un numéro de version : à changer à chaque mise à jour
+       pour que le navigateur recharge les fichiers au lieu d'utiliser les anciens -->
+  <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
   <main class="carte">
@@ -20,7 +22,7 @@
         <option value="courses">Courses</option>
         <option value="pro">Professionnel</option>
       </select>
-      <button type="submit">Ajouter</button>
+      <button type="submit" id="bouton-ajouter">Ajouter</button>
     </form>
 
     <!-- Les boutons de filtre : n'afficher qu'une catégorie à la fois -->
@@ -41,6 +43,6 @@
     </div>
   </main>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=8"></script>
 </body>
 </html>

@@ -35,6 +35,17 @@ h1 {
   border-radius: 6px;
 }
 
+/* Le bouton « Ajouter » : gris anthracite, pour ne pas ressembler
+   aux couleurs des catégories ni au filtre choisi (bleu) */
+#bouton-ajouter {
+  background: #343a40;
+  font-weight: bold;
+}
+
+#bouton-ajouter:hover {
+  background: #1f2327;
+}
+
 #champ-echeance {
   padding: 9px;
   font-size: 0.95rem;
