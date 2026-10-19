@@ -1,6 +1,7 @@
 // On récupère les éléments de la page dont on a besoin
 const formulaire = document.getElementById("formulaire");
 const champTache = document.getElementById("champ-tache");
+const champEcheance = document.getElementById("champ-echeance");
 const liste = document.getElementById("liste");
 const compteur = document.getElementById("compteur");
 const boutonEffacerTerminees = document.getElementById("effacer-terminees");
@@ -29,6 +30,20 @@ function sauvegarderTaches() {
 
 // La liste des tâches, gardée en mémoire
 let taches = chargerTaches();
+
+// La date du jour au format "AAAA-MM-JJ" (le même format que le champ date)
+function dateDuJour() {
+  const maintenant = new Date();
+  const mois = String(maintenant.getMonth() + 1).padStart(2, "0");
+  const jour = String(maintenant.getDate()).padStart(2, "0");
+  return maintenant.getFullYear() + "-" + mois + "-" + jour;
+}
+
+// Transforme "2026-10-25" en "25/10/2026" pour l'affichage
+function formaterDate(date) {
+  const morceaux = date.split("-");
+  return morceaux[2] + "/" + morceaux[1] + "/" + morceaux[0];
+}
 
 // Redessine toute la liste à l'écran à partir du tableau "taches"
 // et l'enregistre (elle est appelée après chaque changement)
@@ -65,8 +80,30 @@ function afficherTaches() {
       afficherTaches();
     });
 
+    // Le texte et la date sont regroupés : sur un petit écran, la date passe dessous
+    const contenu = document.createElement("div");
+    contenu.className = "contenu";
+    contenu.appendChild(texte);
+
+    // La date d'échéance, si la tâche en a une
+    if (tache.echeance) {
+      const echeance = document.createElement("span");
+      echeance.className = "echeance";
+      echeance.textContent = "échéance : " + formaterDate(tache.echeance);
+
+      // En rouge si la date est passée, en orange si c'est aujourd'hui
+      // (sauf si la tâche est déjà faite)
+      if (!tache.faite && tache.echeance < dateDuJour()) {
+        echeance.classList.add("en-retard");
+      } else if (!tache.faite && tache.echeance === dateDuJour()) {
+        echeance.classList.add("aujourdhui");
+      }
+
+      contenu.appendChild(echeance);
+    }
+
     li.appendChild(caseACocher);
-    li.appendChild(texte);
+    li.appendChild(contenu);
     li.appendChild(boutonSupprimer);
     liste.appendChild(li);
   }
@@ -110,8 +147,9 @@ formulaire.addEventListener("submit", function (evenement) {
   const texte = champTache.value.trim();
   if (texte === "") return; // on n'ajoute pas de tâche vide
 
-  taches.push({ texte: texte, faite: false });
+  taches.push({ texte: texte, faite: false, echeance: champEcheance.value });
   champTache.value = "";
+  champEcheance.value = "";
   champTache.focus();
 
   afficherTaches();
