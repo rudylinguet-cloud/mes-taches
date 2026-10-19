@@ -2,6 +2,7 @@
 const formulaire = document.getElementById("formulaire");
 const champTache = document.getElementById("champ-tache");
 const liste = document.getElementById("liste");
+const compteur = document.getElementById("compteur");
 
 // Le nom sous lequel les tâches sont rangées dans le navigateur
 const CLE_STOCKAGE = "mes-taches";
@@ -67,6 +68,25 @@ function afficherTaches() {
     li.appendChild(texte);
     li.appendChild(boutonSupprimer);
     liste.appendChild(li);
+  }
+
+  afficherCompteur();
+}
+
+// Affiche combien de tâches ne sont pas encore cochées
+function afficherCompteur() {
+  const restantes = taches.filter(function (t) {
+    return !t.faite;
+  }).length;
+
+  if (taches.length === 0) {
+    compteur.textContent = ""; // pas de tâche : rien à afficher
+  } else if (restantes === 0) {
+    compteur.textContent = "Tout est fait !";
+  } else if (restantes === 1) {
+    compteur.textContent = "1 tâche restante";
+  } else {
+    compteur.textContent = restantes + " tâches restantes";
   }
 }
 

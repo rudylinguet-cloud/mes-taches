@@ -66,6 +66,12 @@ button:hover {
   cursor: pointer;
 }
 
+#compteur {
+  margin-bottom: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
 /* Le bouton « Supprimer », poussé tout à droite */
 .supprimer {
   margin-left: auto;
