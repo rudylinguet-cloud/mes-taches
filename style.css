@@ -66,10 +66,35 @@ button:hover {
   cursor: pointer;
 }
 
+/* Bas de la liste : compteur à gauche, bouton à droite */
+#pied {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 16px;
+}
+
 #compteur {
-  margin-bottom: 0;
+  margin: 0;
   color: #666;
   font-size: 0.9rem;
+}
+
+#effacer-terminees {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  background: #e8eaee;
+  color: #333;
+}
+
+#effacer-terminees:hover {
+  background: #d5d8de;
+}
+
+/* Le bouton reste caché quand il n'y a rien à effacer */
+#effacer-terminees[hidden] {
+  display: none;
 }
 
 /* Le bouton « Supprimer », poussé tout à droite */

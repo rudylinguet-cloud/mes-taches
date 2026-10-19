@@ -3,6 +3,7 @@ const formulaire = document.getElementById("formulaire");
 const champTache = document.getElementById("champ-tache");
 const liste = document.getElementById("liste");
 const compteur = document.getElementById("compteur");
+const boutonEffacerTerminees = document.getElementById("effacer-terminees");
 
 // Le nom sous lequel les tâches sont rangées dans le navigateur
 const CLE_STOCKAGE = "mes-taches";
@@ -88,7 +89,19 @@ function afficherCompteur() {
   } else {
     compteur.textContent = restantes + " tâches restantes";
   }
+
+  // Le bouton « Effacer les tâches terminées » n'apparaît que s'il y en a
+  const terminees = taches.length - restantes;
+  boutonEffacerTerminees.hidden = terminees === 0;
 }
+
+// Quand on clique sur « Effacer les tâches terminées »
+boutonEffacerTerminees.addEventListener("click", function () {
+  taches = taches.filter(function (t) {
+    return !t.faite; // on garde seulement les tâches pas encore faites
+  });
+  afficherTaches();
+});
 
 // Quand on clique sur « Ajouter » (ou qu'on appuie sur Entrée)
 formulaire.addEventListener("submit", function (evenement) {
