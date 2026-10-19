@@ -3,11 +3,35 @@ const formulaire = document.getElementById("formulaire");
 const champTache = document.getElementById("champ-tache");
 const liste = document.getElementById("liste");
 
+// Le nom sous lequel les tâches sont rangées dans le navigateur
+const CLE_STOCKAGE = "mes-taches";
+
+// Récupère les tâches enregistrées dans le navigateur (liste vide s'il n'y en a pas)
+function chargerTaches() {
+  try {
+    const donnees = localStorage.getItem(CLE_STOCKAGE);
+    return donnees ? JSON.parse(donnees) : [];
+  } catch (erreur) {
+    return []; // stockage indisponible ou abîmé : on repart d'une liste vide
+  }
+}
+
+// Enregistre les tâches dans le navigateur pour les retrouver plus tard
+function sauvegarderTaches() {
+  try {
+    localStorage.setItem(CLE_STOCKAGE, JSON.stringify(taches));
+  } catch (erreur) {
+    // stockage indisponible (navigation privée...) : l'appli marche quand même
+  }
+}
+
 // La liste des tâches, gardée en mémoire
-let taches = [];
+let taches = chargerTaches();
 
 // Redessine toute la liste à l'écran à partir du tableau "taches"
+// et l'enregistre (elle est appelée après chaque changement)
 function afficherTaches() {
+  sauvegarderTaches();
   liste.innerHTML = "";
 
   for (const tache of taches) {
@@ -59,3 +83,6 @@ formulaire.addEventListener("submit", function (evenement) {
 
   afficherTaches();
 });
+
+// Au chargement de la page : on affiche les tâches retrouvées
+afficherTaches();
