@@ -39,6 +39,14 @@ function sauvegarderTaches() {
 // La liste des tâches, gardée en mémoire
 let taches = chargerTaches();
 
+// Le filtre choisi : "toutes", ou le code d'une catégorie ("maison", "courses", "pro")
+let filtre = "toutes";
+
+// Est-ce que cette tâche doit s'afficher avec le filtre choisi ?
+function correspondAuFiltre(tache) {
+  return filtre === "toutes" || tache.categorie === filtre;
+}
+
 // La date du jour au format "AAAA-MM-JJ" (le même format que le champ date)
 function dateDuJour() {
   const maintenant = new Date();
@@ -71,7 +79,10 @@ function afficherTaches() {
   sauvegarderTaches();
   liste.innerHTML = "";
 
-  for (const tache of trierParEcheance(taches)) {
+  // On n'affiche que les tâches qui correspondent au filtre
+  const visibles = taches.filter(correspondAuFiltre);
+
+  for (const tache of trierParEcheance(visibles)) {
     const li = document.createElement("li");
 
     // La case à cocher : cochée si la tâche est faite
@@ -136,17 +147,19 @@ function afficherTaches() {
     liste.appendChild(li);
   }
 
-  afficherCompteur();
+  afficherCompteur(visibles);
 }
 
-// Affiche combien de tâches ne sont pas encore cochées
-function afficherCompteur() {
-  const restantes = taches.filter(function (t) {
+// Affiche combien de tâches affichées ne sont pas encore cochées
+function afficherCompteur(visibles) {
+  const restantes = visibles.filter(function (t) {
     return !t.faite;
   }).length;
 
   if (taches.length === 0) {
-    compteur.textContent = ""; // pas de tâche : rien à afficher
+    compteur.textContent = ""; // pas de tâche du tout : rien à afficher
+  } else if (visibles.length === 0) {
+    compteur.textContent = "Aucune tâche dans cette catégorie";
   } else if (restantes === 0) {
     compteur.textContent = "Tout est fait !";
   } else if (restantes === 1) {
@@ -155,18 +168,40 @@ function afficherCompteur() {
     compteur.textContent = restantes + " tâches restantes";
   }
 
-  // Le bouton « Effacer les tâches terminées » n'apparaît que s'il y en a
-  const terminees = taches.length - restantes;
+  // Le bouton « Effacer les tâches terminées » n'apparaît que s'il y en a d'affichées
+  const terminees = visibles.length - restantes;
   boutonEffacerTerminees.hidden = terminees === 0;
 }
 
-// Quand on clique sur « Effacer les tâches terminées »
+// Quand on clique sur « Effacer les tâches terminées » :
+// seules les tâches terminées AFFICHÉES sont effacées (celles du filtre choisi)
 boutonEffacerTerminees.addEventListener("click", function () {
   taches = taches.filter(function (t) {
-    return !t.faite; // on garde seulement les tâches pas encore faites
+    return !(t.faite && correspondAuFiltre(t));
   });
   afficherTaches();
 });
+
+// Quand on clique sur un bouton de filtre
+for (const bouton of document.querySelectorAll(".filtre")) {
+  bouton.addEventListener("click", function () {
+    choisirFiltre(bouton.dataset.filtre);
+  });
+}
+
+// Change le filtre, met en valeur le bon bouton et réaffiche la liste
+function choisirFiltre(nouveauFiltre) {
+  filtre = nouveauFiltre;
+
+  for (const bouton of document.querySelectorAll(".filtre")) {
+    bouton.classList.toggle("actif", bouton.dataset.filtre === filtre);
+  }
+
+  // Le menu du formulaire propose directement la catégorie filtrée
+  champCategorie.value = filtre === "toutes" ? "" : filtre;
+
+  afficherTaches();
+}
 
 // Quand on clique sur « Ajouter » (ou qu'on appuie sur Entrée)
 formulaire.addEventListener("submit", function (evenement) {
@@ -183,10 +218,16 @@ formulaire.addEventListener("submit", function (evenement) {
   });
   champTache.value = "";
   champEcheance.value = "";
-  champCategorie.value = "";
   champTache.focus();
 
-  afficherTaches();
+  // Si la nouvelle tâche est cachée par le filtre, on affiche toutes les tâches
+  // pour qu'elle ne semble pas avoir disparu
+  if (!correspondAuFiltre(taches[taches.length - 1])) {
+    choisirFiltre("toutes");
+  } else {
+    champCategorie.value = filtre === "toutes" ? "" : filtre;
+    afficherTaches();
+  }
 });
 
 // Au chargement de la page : on affiche les tâches retrouvées

@@ -106,10 +106,36 @@ button:hover {
   background: #3654d1;
 }
 
+/* Les boutons de filtre par catégorie */
+#filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 20px;
+}
+
+.filtre {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  background: #e8eaee;
+  color: #333;
+  border-radius: 999px;
+}
+
+.filtre:hover {
+  background: #d5d8de;
+}
+
+/* Le filtre choisi */
+.filtre.actif {
+  background: #4a6cf7;
+  color: white;
+}
+
 #liste {
   list-style: none;
   padding: 0;
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 #liste li {

@@ -23,6 +23,14 @@
       <button type="submit">Ajouter</button>
     </form>
 
+    <!-- Les boutons de filtre : n'afficher qu'une catégorie à la fois -->
+    <div id="filtres">
+      <button type="button" class="filtre actif" data-filtre="toutes">Toutes</button>
+      <button type="button" class="filtre" data-filtre="maison">Maison</button>
+      <button type="button" class="filtre" data-filtre="courses">Courses</button>
+      <button type="button" class="filtre" data-filtre="pro">Professionnel</button>
+    </div>
+
     <!-- La liste où les tâches vont apparaître -->
     <ul id="liste"></ul>
 
