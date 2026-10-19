@@ -28,8 +28,20 @@ function afficherTaches() {
       texte.classList.add("faite"); // le CSS va barrer le texte
     }
 
+    // Le bouton « Supprimer » : retire cette tâche de la liste
+    const boutonSupprimer = document.createElement("button");
+    boutonSupprimer.textContent = "Supprimer";
+    boutonSupprimer.className = "supprimer";
+    boutonSupprimer.addEventListener("click", function () {
+      taches = taches.filter(function (t) {
+        return t !== tache; // on garde toutes les tâches sauf celle-ci
+      });
+      afficherTaches();
+    });
+
     li.appendChild(caseACocher);
     li.appendChild(texte);
+    li.appendChild(boutonSupprimer);
     liste.appendChild(li);
   }
 }

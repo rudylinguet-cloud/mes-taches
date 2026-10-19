@@ -66,6 +66,18 @@ button:hover {
   cursor: pointer;
 }
 
+/* Le bouton « Supprimer », poussé tout à droite */
+.supprimer {
+  margin-left: auto;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  background: #e5484d;
+}
+
+.supprimer:hover {
+  background: #c7363b;
+}
+
 /* Une tâche terminée : texte barré et grisé */
 .faite {
   text-decoration: line-through;
