@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ma liste de tâches</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="carte">
+    <h1>Ma liste de tâches</h1>
+
+    <!-- Zone de saisie : un champ texte + un bouton -->
+    <form id="formulaire">
+      <input type="text" id="champ-tache" placeholder="Écris une tâche..." autocomplete="off">
+      <button type="submit">Ajouter</button>
+    </form>
+
+    <!-- La liste où les tâches vont apparaître -->
+    <ul id="liste"></ul>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
