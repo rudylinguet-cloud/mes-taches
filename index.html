@@ -10,10 +10,16 @@
   <main class="carte">
     <h1>Ma liste de tâches</h1>
 
-    <!-- Zone de saisie : un champ texte + une date d'échéance (facultative) + un bouton -->
+    <!-- Zone de saisie : un champ texte + une date d'échéance et une catégorie (facultatives) + un bouton -->
     <form id="formulaire">
       <input type="text" id="champ-tache" placeholder="Écris une tâche..." autocomplete="off">
       <input type="date" id="champ-echeance" title="Date d'échéance (facultative)">
+      <select id="champ-categorie" title="Catégorie (facultative)">
+        <option value="">Sans catégorie</option>
+        <option value="maison">Maison</option>
+        <option value="courses">Courses</option>
+        <option value="pro">Professionnel</option>
+      </select>
       <button type="submit">Ajouter</button>
     </form>
 

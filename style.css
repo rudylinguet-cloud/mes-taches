@@ -25,9 +25,10 @@ h1 {
   gap: 8px;
 }
 
+/* Le texte de la tâche prend toute la première ligne ;
+   la date, la catégorie et le bouton se rangent en dessous */
 #champ-tache {
-  flex: 1;
-  min-width: 180px;
+  flex: 1 1 100%;
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ccc;
@@ -39,6 +40,39 @@ h1 {
   font-size: 0.95rem;
   border: 1px solid #ccc;
   border-radius: 6px;
+}
+
+#champ-categorie {
+  flex: 1;
+  padding: 9px;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+}
+
+/* L'étiquette de catégorie : une petite pastille colorée */
+.categorie {
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.categorie-maison {
+  background: #e6f4ea;
+  color: #1e7b34;
+}
+
+.categorie-courses {
+  background: #f3e8fa;
+  color: #862e9c;
+}
+
+.categorie-pro {
+  background: #e3effb;
+  color: #1864ab;
 }
 
 /* La date d'échéance affichée à côté d'une tâche */

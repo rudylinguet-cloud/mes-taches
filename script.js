@@ -2,6 +2,14 @@
 const formulaire = document.getElementById("formulaire");
 const champTache = document.getElementById("champ-tache");
 const champEcheance = document.getElementById("champ-echeance");
+const champCategorie = document.getElementById("champ-categorie");
+
+// Les catégories possibles : le code enregistré → le nom affiché
+const CATEGORIES = {
+  maison: "Maison",
+  courses: "Courses",
+  pro: "Professionnel",
+};
 const liste = document.getElementById("liste");
 const compteur = document.getElementById("compteur");
 const boutonEffacerTerminees = document.getElementById("effacer-terminees");
@@ -97,6 +105,14 @@ function afficherTaches() {
     contenu.className = "contenu";
     contenu.appendChild(texte);
 
+    // L'étiquette de catégorie, si la tâche en a une
+    if (CATEGORIES[tache.categorie]) {
+      const categorie = document.createElement("span");
+      categorie.className = "categorie categorie-" + tache.categorie; // la couleur vient du CSS
+      categorie.textContent = CATEGORIES[tache.categorie];
+      contenu.appendChild(categorie);
+    }
+
     // La date d'échéance, si la tâche en a une
     if (tache.echeance) {
       const echeance = document.createElement("span");
@@ -159,9 +175,15 @@ formulaire.addEventListener("submit", function (evenement) {
   const texte = champTache.value.trim();
   if (texte === "") return; // on n'ajoute pas de tâche vide
 
-  taches.push({ texte: texte, faite: false, echeance: champEcheance.value });
+  taches.push({
+    texte: texte,
+    faite: false,
+    echeance: champEcheance.value,
+    categorie: champCategorie.value,
+  });
   champTache.value = "";
   champEcheance.value = "";
+  champCategorie.value = "";
   champTache.focus();
 
   afficherTaches();
