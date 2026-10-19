@@ -39,6 +39,18 @@ function dateDuJour() {
   return maintenant.getFullYear() + "-" + mois + "-" + jour;
 }
 
+// Renvoie une copie des tâches triée par date d'échéance :
+// la plus proche en haut, les tâches sans date à la fin.
+// Deux tâches à la même date gardent leur ordre d'ajout.
+function trierParEcheance(liste) {
+  return liste.slice().sort(function (a, b) {
+    if (!a.echeance && !b.echeance) return 0;
+    if (!a.echeance) return 1; // a n'a pas de date : elle va après b
+    if (!b.echeance) return -1; // b n'a pas de date : elle va après a
+    return a.echeance.localeCompare(b.echeance);
+  });
+}
+
 // Transforme "2026-10-25" en "25/10/2026" pour l'affichage
 function formaterDate(date) {
   const morceaux = date.split("-");
@@ -51,7 +63,7 @@ function afficherTaches() {
   sauvegarderTaches();
   liste.innerHTML = "";
 
-  for (const tache of taches) {
+  for (const tache of trierParEcheance(taches)) {
     const li = document.createElement("li");
 
     // La case à cocher : cochée si la tâche est faite
